@@ -15,13 +15,13 @@
             android:name=".QuenMatKhau"
             android:exported="false" />
         <activity
-            android:name=".DangKy"
+            android:name=".DangNhap"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".DangNhap"
+            android:name=".DangKy"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
