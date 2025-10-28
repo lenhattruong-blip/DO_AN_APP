@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
             R.id.nav_home -> selectedFragment = HomeFragment()
             R.id.nav_history -> selectedFragment = LichSuDatVeFragment()
             R.id.nav_inbox -> selectedFragment = MenuFragment.newInstance("Hộp Thư")
-            R.id.nav_profile -> selectedFragment = MenuFragment.newInstance("Cá Nhân")
+            R.id.nav_profile -> selectedFragment = CaNhanFragment()
         }
 
         if (selectedFragment != null) {
