@@ -17,14 +17,12 @@ class HoTroFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Load file layout (tôi giả sử bạn đặt tên là fragment_support_center.xml)
         return inflater.inflate(R.layout.trungtamhotro_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Tìm các View trong layout bằng ID
         val toolbar = view.findViewById<MaterialToolbar>(R.id.toolbar)
         val contactButton = view.findViewById<CardView>(R.id.btnContact)
         val link1 = view.findViewById<TextView>(R.id.link1)
@@ -33,20 +31,15 @@ class HoTroFragment : Fragment() {
         val link4 = view.findViewById<TextView>(R.id.link4)
         val link5 = view.findViewById<TextView>(R.id.link5)
 
-        // --- Gán sự kiện Click ---
 
-        // 1. Nút quay lại (Back) trên Toolbar
         toolbar.setNavigationOnClickListener {
-            // Quay lại Fragment trước đó (pop back stack)
             requireActivity().supportFragmentManager.popBackStack()
         }
 
-        // 2. Nút "Liên hệ chúng tôi"
         contactButton.setOnClickListener {
             Toast.makeText(requireContext(), "Mở trang liên hệ...", Toast.LENGTH_SHORT).show()
         }
 
-        // 3. Các link câu hỏi (Bạn có thể thay Toast bằng việc mở link web)
         link1.setOnClickListener {
             Toast.makeText(requireContext(), "Mở: Cách đổi lịch vé", Toast.LENGTH_SHORT).show()
         }

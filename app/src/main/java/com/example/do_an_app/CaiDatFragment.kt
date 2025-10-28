@@ -1,4 +1,4 @@
-package com.example.do_an_app // Ghi chú: Gói (package) của bạn có thể khác
+package com.example.do_an_app
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,7 +16,6 @@ class CaiDatFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Load file layout (tôi giả sử bạn đặt tên là fragment_settings.xml)
         return inflater.inflate(R.layout.caidat_fragment, container, false)
     }
 
@@ -31,38 +30,39 @@ class CaiDatFragment : Fragment() {
         val itemLanguage = view.findViewById<ConstraintLayout>(R.id.itemLanguage)
         val itemLogout = view.findViewById<ConstraintLayout>(R.id.itemLogout)
 
-        // --- Gán sự kiện Click ---
-
-        // 1. Nút quay lại (Back) trên Toolbar
         toolbar.setNavigationOnClickListener {
-            // Quay lại Fragment/Activity trước đó
             requireActivity().supportFragmentManager.popBackStack()
         }
 
-        // 2. Thông tin tài khoản
         itemAccountInfo.setOnClickListener {
             Toast.makeText(requireContext(), "Mở Thông tin tài khoản", Toast.LENGTH_SHORT).show()
-            // (Trong tương lai, bạn có thể chuyển sang một Fragment/Activity khác tại đây)
+            val fragmentManager = requireActivity().supportFragmentManager
+            val fragmentTransaction = fragmentManager.beginTransaction()
+
+            fragmentTransaction.replace(R.id.fragment_container, ThongTinTaiKhoanFragment())
+            fragmentTransaction.addToBackStack(null)
+            fragmentTransaction.commit()
         }
 
-        // 3. Mật khẩu & Bảo mật
         itemPassword.setOnClickListener {
             Toast.makeText(requireContext(), "Mở Mật khẩu & Bảo mật", Toast.LENGTH_SHORT).show()
+            val fragmentManager = requireActivity().supportFragmentManager
+            val fragmentTransaction = fragmentManager.beginTransaction()
+
+            fragmentTransaction.replace(R.id.fragment_container, MatKhauVabaoMatFragment())
+            fragmentTransaction.addToBackStack(null)
+            fragmentTransaction.commit()
         }
 
-        // 4. Tiền tệ
         itemCurrency.setOnClickListener {
             Toast.makeText(requireContext(), "Mở chọn Tiền tệ", Toast.LENGTH_SHORT).show()
         }
 
-        // 5. Ngôn ngữ
         itemLanguage.setOnClickListener {
             Toast.makeText(requireContext(), "Mở chọn Ngôn ngữ", Toast.LENGTH_SHORT).show()
         }
 
-        // 6. Đăng xuất
         itemLogout.setOnClickListener {
-            // (Trong thực tế, bạn nên hiển thị một Dialog xác nhận trước khi đăng xuất)
             Toast.makeText(requireContext(), "Đăng xuất...", Toast.LENGTH_SHORT).show()
         }
     }

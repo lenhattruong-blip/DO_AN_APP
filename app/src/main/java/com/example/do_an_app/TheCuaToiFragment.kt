@@ -16,7 +16,7 @@ class TheCuaToiFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.thecuatoi, container, false)
+        return inflater.inflate(R.layout.thecuatoi_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -35,7 +35,12 @@ class TheCuaToiFragment : Fragment() {
         addCardButton.setOnClickListener {
             // Hiển thị thông báo nhanh (Toast)
             Toast.makeText(requireContext(), "Mở form thêm thẻ mới", Toast.LENGTH_SHORT).show()
+            val fragmentManager = requireActivity().supportFragmentManager
+            val fragmentTransaction = fragmentManager.beginTransaction()
 
+            fragmentTransaction.replace(R.id.fragment_container, ThemTheFragment())
+            fragmentTransaction.addToBackStack(null)
+            fragmentTransaction.commit()
         }
     }
 }
