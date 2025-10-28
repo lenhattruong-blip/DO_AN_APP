@@ -12,16 +12,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DO_AN_APP">
         <activity
-            android:name=".DangKy"
+            android:name=".MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".QuenMatKhau"
             android:exported="false" />
         <activity
             android:name=".DangNhap"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
-            android:exported="false" />
-        <activity
-            android:name=".QuenMatKhau"
+            android:name=".DangKy"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
