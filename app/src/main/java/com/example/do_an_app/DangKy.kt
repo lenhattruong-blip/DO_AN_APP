@@ -11,6 +11,10 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
 class DangKy : AppCompatActivity() {
+
+    //biến DatabaseHelper
+    private lateinit var db: UserDatabaseHelper
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -20,6 +24,10 @@ class DangKy : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        //tạo DatabaseHelper
+        db = UserDatabaseHelper(this)
+
         val etName = findViewById<EditText>(R.id.etName)
         val etEmail = findViewById<EditText>(R.id.etEmail)
         val etPhone = findViewById<EditText>(R.id.etPhone)
@@ -27,6 +35,7 @@ class DangKy : AppCompatActivity() {
         val etConfirmPassword = findViewById<EditText>(R.id.etConfirmPassword)
         val btnRegister = findViewById<Button>(R.id.btnRegister)
         val tvLogin = findViewById<TextView>(R.id.tvLogin)
+
         btnRegister.setOnClickListener {
             val name = etName.text.toString().trim()
             val email = etEmail.text.toString().trim()
@@ -43,8 +52,24 @@ class DangKy : AppCompatActivity() {
                 Toast.makeText(this, "Mật khẩu không khớp", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            Toast.makeText(this, "Đăng ký thành công!", Toast.LENGTH_SHORT).show()
-            finish()
+
+            // Kiểm tra email đã tồn tại chưa
+            if (db.checkEmailExists(email)) {
+                Toast.makeText(this, "Email đã tồn tại", Toast.LENGTH_SHORT).show()
+            } else {
+                // Tạo đối tượng User
+                val user = User(name = name, email = email, phone = phone, password = password)
+                // Thêm user vào CSDL
+                val result = db.insertUser(user)
+
+                if (result != -1L) {
+                    // Nếu result không phải -1 (tức là insert thành công)
+                    Toast.makeText(this, "Đăng ký thành công!", Toast.LENGTH_SHORT).show()
+                    finish() // Đóng màn hình đăng ký
+                } else {
+                    Toast.makeText(this, "Đăng ký thất bại, vui lòng thử lại", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
 
         tvLogin.setOnClickListener {
