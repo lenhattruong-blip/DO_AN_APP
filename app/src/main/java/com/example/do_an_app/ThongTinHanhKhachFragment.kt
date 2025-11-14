@@ -1,4 +1,4 @@
-package com.example.do_an_app // Ghi chú: Gói (package) của bạn có thể khác
+package com.example.do_an_app
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -33,7 +33,6 @@ class ThongTinHanhKhachFragment : Fragment() {
             Toast.makeText(requireContext(), "Mở chi tiết hồ sơ", Toast.LENGTH_SHORT).show()
         }
         addPassengerButton.setOnClickListener {
-            Toast.makeText(requireContext(), "Mở form thêm hành khách mới", Toast.LENGTH_SHORT).show()
             val fragmentManager = requireActivity().supportFragmentManager
             val fragmentTransaction = fragmentManager.beginTransaction()
 

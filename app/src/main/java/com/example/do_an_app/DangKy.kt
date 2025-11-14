@@ -11,9 +11,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
 class DangKy : AppCompatActivity() {
-
-    //biến DatabaseHelper
-    private lateinit var db: UserDatabaseHelper
+    private lateinit var db: DatabaseHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,9 +22,7 @@ class DangKy : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
-        //tạo DatabaseHelper
-        db = UserDatabaseHelper(this)
+        db = DatabaseHelper(this)
 
         val etName = findViewById<EditText>(R.id.etName)
         val etEmail = findViewById<EditText>(R.id.etEmail)
@@ -52,22 +48,22 @@ class DangKy : AppCompatActivity() {
                 Toast.makeText(this, "Mật khẩu không khớp", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-
-            // Kiểm tra email đã tồn tại chưa
             if (db.checkEmailExists(email)) {
                 Toast.makeText(this, "Email đã tồn tại", Toast.LENGTH_SHORT).show()
             } else {
-                // Tạo đối tượng User
-                val user = User(name = name, email = email, phone = phone, password = password)
-                // Thêm user vào CSDL
-                val result = db.insertUser(user)
+                val newUser = User(
+                    name = name,
+                    email = email,
+                    phone = phone,
+                    password = password
+                )
 
-                if (result != -1L) {
-                    // Nếu result không phải -1 (tức là insert thành công)
-                    Toast.makeText(this, "Đăng ký thành công!", Toast.LENGTH_SHORT).show()
-                    finish() // Đóng màn hình đăng ký
+                val result = db.insertUser(newUser)
+                if (result > -1) {
+                    Toast.makeText(this, "Đăng ký thành công", Toast.LENGTH_SHORT).show()
+                    finish()
                 } else {
-                    Toast.makeText(this, "Đăng ký thất bại, vui lòng thử lại", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Đăng ký thất bại", Toast.LENGTH_SHORT).show()
                 }
             }
         }

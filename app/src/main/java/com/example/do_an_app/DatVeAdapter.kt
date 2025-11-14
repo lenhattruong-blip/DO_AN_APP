@@ -4,7 +4,6 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
@@ -19,7 +18,7 @@ class DatVeAdapter(private val bookingList: List<DatVe>) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookingViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_datve, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_vedadat, parent, false)
         return BookingViewHolder(view)
     }
     override fun onBindViewHolder(holder: BookingViewHolder, position: Int) {

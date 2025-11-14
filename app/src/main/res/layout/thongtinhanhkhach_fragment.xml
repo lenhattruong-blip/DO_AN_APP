@@ -106,7 +106,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="16dp"
-                        android:text="Viet Thang Pham"
+                        android:text="Viet Thang Huynh"
                         android:textColor="@android:color/black"
                         android:textSize="16sp" />
 
@@ -125,7 +125,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="16dp"
-                        android:text="Nhat Truong Nguyen"
+                        android:text="Nhat Truong Le"
                         android:textColor="@android:color/black"
                         android:textSize="16sp" />
 

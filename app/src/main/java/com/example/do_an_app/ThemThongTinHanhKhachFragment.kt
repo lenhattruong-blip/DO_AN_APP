@@ -1,6 +1,7 @@
-package com.example.do_an_app // Ghi chú: Gói (package) của bạn có thể khác
+package com.example.do_an_app
 
 import android.app.DatePickerDialog
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,8 +14,7 @@ import com.google.android.material.appbar.MaterialToolbar
 import java.util.Calendar
 
 class ThemThongTinHanhKhachFragment : Fragment() {
-
-    // Khai báo các View
+    private lateinit var db: DatabaseHelper
     private lateinit var toolbar: MaterialToolbar
     private lateinit var etTen: EditText
     private lateinit var etHo: EditText
@@ -29,14 +29,12 @@ class ThemThongTinHanhKhachFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Load file layout
+        db = DatabaseHelper(requireContext())
         return inflater.inflate(R.layout.themthongtinhanhkhach_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        // Ánh xạ View
         toolbar = view.findViewById(R.id.toolbar)
         etTen = view.findViewById(R.id.etTen)
         etHo = view.findViewById(R.id.etHo)
@@ -46,31 +44,40 @@ class ThemThongTinHanhKhachFragment : Fragment() {
         btnSave = view.findViewById(R.id.btnSave)
         btnCancel = view.findViewById(R.id.btnCancel)
 
-        // --- Gán sự kiện Click ---
-
-        // 1. Nút quay lại (Back) trên Toolbar
         toolbar.setNavigationOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
         }
 
-        // 2. Nút Hủy
         btnCancel.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
         }
 
-        // 3. Nút Lưu (với validation đơn giản)
         btnSave.setOnClickListener {
             if (validateInput()) {
-                val fullName = "${etHo.text.toString().trim()} ${etTen.text.toString().trim()}"
-                Toast.makeText(requireContext(), "Đã lưu: $fullName", Toast.LENGTH_SHORT).show()
-                // Đóng fragment sau khi lưu
-                requireActivity().supportFragmentManager.popBackStack()
+                val userId = getSavedUserId()
+                if (userId == -1) {
+                    Toast.makeText(requireContext(), "Lỗi: Chưa đăng nhập", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+                val newHanhKhach = HanhKhach(
+                    userId = userId,
+                    ho = etHo.text.toString().trim(),
+                    ten = etTen.text.toString().trim(),
+                    ngaySinh = etNgaySinh.text.toString().trim(),
+                    quocTich = etQuocTich.text.toString().trim(),
+                    chucDanh = etChucDanh.text.toString().trim()
+                )
+                val result = db.insertHanhKhach(newHanhKhach)
+
+                if (result > -1) {
+                    Toast.makeText(requireContext(), "Đã lưu hành khách", Toast.LENGTH_SHORT).show()
+                    requireActivity().supportFragmentManager.popBackStack()
+                } else {
+                    Toast.makeText(requireContext(), "Lưu thất bại", Toast.LENGTH_SHORT).show()
+                }
             }
         }
-
-        // 4. Các trường "giả" Spinner/DatePicker
         etNgaySinh.setOnClickListener {
-            // Mở DatePickerDialog (Giống Lab 2)
             openDatePicker()
         }
 
@@ -82,14 +89,12 @@ class ThemThongTinHanhKhachFragment : Fragment() {
             Toast.makeText(requireContext(), "Mở chọn Quốc tịch", Toast.LENGTH_SHORT).show()
         }
     }
-
-    // Hàm kiểm tra thông tin (Giống Lab 2)
     private fun validateInput(): Boolean {
         val ten = etTen.text.toString().trim()
         val ho = etHo.text.toString().trim()
         val ngaySinh = etNgaySinh.text.toString().trim()
-        val quocTich = etQuocTich.text.toString().trim() // Thực tế nên kiểm tra khác
-        val chucDanh = etChucDanh.text.toString().trim() // Thực tế nên kiểm tra khác
+        val quocTich = etQuocTich.text.toString().trim()
+        val chucDanh = etChucDanh.text.toString().trim()
 
         if (ten.isEmpty()) {
             etTen.error = "Vui lòng nhập tên"
@@ -108,12 +113,8 @@ class ThemThongTinHanhKhachFragment : Fragment() {
             return false
         }
 
-        // (Bạn có thể thêm validation cho các trường khác)
-
         return true
     }
-
-    // Hàm mở Lịch chọn ngày (Giống Lab 2)
     private fun openDatePicker() {
         val cal = Calendar.getInstance()
         val y = cal.get(Calendar.YEAR)
@@ -124,9 +125,11 @@ class ThemThongTinHanhKhachFragment : Fragment() {
             val dateStr = String.format("%02d/%02d/%04d", dayOfMonth, month + 1, year)
             etNgaySinh.setText(dateStr)
         }, y, m, d)
-
-        // Không cho chọn ngày tương lai
         dpd.datePicker.maxDate = System.currentTimeMillis()
         dpd.show()
+    }
+    private fun getSavedUserId(): Int {
+        val prefs = requireActivity().getSharedPreferences("FlightAppPrefs", Context.MODE_PRIVATE)
+        return prefs.getInt("USER_ID", -1) // Trả về -1 nếu không tìm thấy
     }
 }

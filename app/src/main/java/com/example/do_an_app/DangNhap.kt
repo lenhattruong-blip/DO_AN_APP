@@ -1,5 +1,6 @@
 package com.example.do_an_app
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -13,8 +14,7 @@ import androidx.core.view.WindowInsetsCompat
 
 class DangNhap : AppCompatActivity() {
 
-    // 1. Thêm biến DatabaseHelper
-    private lateinit var db: UserDatabaseHelper
+    private lateinit var db: DatabaseHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,9 +25,7 @@ class DangNhap : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
-        // 2. Khởi tạo DatabaseHelper
-        db = UserDatabaseHelper(this)
+        db = DatabaseHelper(this)
 
         val etEmail = findViewById<EditText>(R.id.etEmail)
         val etPassword = findViewById<EditText>(R.id.etPassword)
@@ -42,16 +40,15 @@ class DangNhap : AppCompatActivity() {
             if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show()
             } else {
-                // 3. THAY THẾ LOGIC ĐĂNG NHẬP
-                // Kiểm tra email và password với CSDL
-                if (db.checkUserLogin(email, password)) {
-                    // Nếu đúng, đăng nhập thành công
+                val userId = db.checkUserLoginAndGetId(email, password)
+
+                if (userId > -1) {
                     Toast.makeText(this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show()
+                    saveUserId(userId)
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
-                    finish() // Đóng màn hình đăng nhập
+                    finish()
                 } else {
-                    // Nếu sai
                     Toast.makeText(this, "Sai email hoặc mật khẩu", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -64,5 +61,11 @@ class DangNhap : AppCompatActivity() {
             val intent = Intent(this, QuenMatKhau::class.java)
             startActivity(intent)
         }
+    }
+    private fun saveUserId(userId: Int) {
+        val prefs = getSharedPreferences("FlightAppPrefs", Context.MODE_PRIVATE)
+        val editor = prefs.edit()
+        editor.putInt("USER_ID", userId)
+        editor.apply()
     }
 }

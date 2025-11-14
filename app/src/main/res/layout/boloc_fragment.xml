@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context=".BoLocFragment">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="Bộ lọc"
+        app:titleCentered="true" />
+
+    <Button
+        android:id="@+id/btnSaveFilter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Lưu"
+        android:padding="16dp"
+        android:layout_margin="16dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="16dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="2dp"
+        app:cardBackgroundColor="#F5F5F5"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintBottom_toTopOf="@id/btnSaveFilter"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hãng hàng không"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:textColor="@android:color/black"/>
+                <TextView
+                    android:id="@+id/tvResetAirlines"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Đặt lại"
+                    android:textColor="@color/design_default_color_primary"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"/>
+            </RelativeLayout>
+            <CheckBox
+                android:id="@+id/cbVietjet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vietjet Air"/>
+            <CheckBox
+                android:id="@+id/cbBamboo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bamboo Airways"/>
+            <CheckBox
+                android:id="@+id/cbVietnamAirlines"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vietnam Airlines"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Giá"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="@android:color/black"
+                android:layout_marginTop="24dp"/>
+
+            <CheckBox
+                android:id="@+id/cbPriceRange1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dưới 1.000.000 VND"/>
+            <CheckBox
+                android:id="@+id/cbPriceRange2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1.000.000 - 3.000.000 VND"/>
+            <CheckBox
+                android:id="@+id/cbPriceRange3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3.000.000 - 5.000.000 VND"/>
+            <CheckBox
+                android:id="@+id/cbPriceRange4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Trên 5.000.000 VND"/>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>
